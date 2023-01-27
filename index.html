@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<body>
+    <nav>
+        <div>
+            <a href="/browse" class="browse">Browse</a>
+            <p href="" class="fire">Fire!</p>
+        </div>
+        
+    </nav>
+    <section class="firebackground">
+        <form action="/decryptall">
+            <h1>Master Password Required</h1>
+            <p>Master password Takes the form pass1-pass2-pass3-key</p>
+            <input type="text" name="password" placeholder="Master Password">
+            <button id="master" type="submit">Submit</button>
+        </form>
+
+    </section>
+    <main>
+        <h1>Secrets</h1>
+        <form action="" method="post" >
+            <!-- <input type="text" name="name" placeholder="Persons Name"> -->
+            <select name="name" id="">
+                <option value="person1">person 1</option>
+                <option value="person2">person 2</option>
+                <option value="person3">person 3</option>
+                <option value="person4">person 4</option>
+                <option value="person5">person 5</option>
+            </select>
+            <textarea name="info" id="" cols="30" rows="10" placeholder="Info"></textarea>
+            <input type="password" name="password" id="" placeholder="Password">
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    
+
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace;
+            padding: 0;
+            margin: 0;
+        }
+        main {
+            height: 100vh;
+            width: 100vw;
+            background-color: #1f1f1f;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            max-width: 60rem;
+            min-width: 600px;
+        }
+        form > input,button, select,textarea  {
+            margin: 1rem 0rem;
+            background: none;
+            color: white;
+            border: white 1px solid;
+            padding: 10px;
+            border-radius: 8px;
+            outline: none;
+        }
+        form > h1,p {
+            color: white;
+            text-align: center;
+            padding-top: 0.5rem;
+        }
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90vw;
+            min-height: 4rem;
+            z-index: 99;
+            color: white;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 1rem;
+            justify-content: end;
+        }
+        nav > div {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+        }
+        .fire {
+            padding: 1rem;
+            background: #aa1111;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        .browse {
+            padding: 1rem;
+            background: #2f2f2f;
+            border-radius: 0.5rem;
+            margin-right: 1rem;
+            text-decoration: none;
+            color: white;
+        }
+        .fire:hover {
+            background: #ff1111;
+        }
+        .browse:hover {
+            background: #3f3f3f;
+        }
+        .firebackground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #1f1f1f;
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            z-index: 98;
+        }
+        .firebackground button {
+            cursor: pointer ;
+        }
+    </style>
+    <script>
+        let fireBtn = document.querySelector(".fire")
+        let fireDisp = document.querySelector(".firebackground")
+        fireBtn.addEventListener("click", () => {
+           if ( fireDisp.style.display == "none" ) {
+            fireDisp.style.display = "flex"
+           } else {
+            fireDisp.style.display = "none"
+           }
+        })
+        
+    </script>
+</body>
+</html>
