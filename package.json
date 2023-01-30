@@ -14,7 +14,7 @@
     "heroku"
   ],
   "engines": {
-    "node": "16.7.1"
+    "node": "16.7"
   },
 
   "author": "",
