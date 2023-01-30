@@ -9,6 +9,14 @@
     "dev": "node index.js",
     "start": "node index.js"
   },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
+  "engines": {
+    "node": "16.7.1"
+  },
+
   "author": "",
   "license": "ISC",
   "dependencies": {
