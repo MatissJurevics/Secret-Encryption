@@ -1,0 +1,17 @@
+{
+  "started": true,
+  "people": {
+    "person1": [
+      "0-U2FsdGVkX1+tJPf6EMApXjBV6EibWTtC9SMCnPjA+wY="
+    ]
+  },
+  "logs": [
+    "User 1 has added \"U2FsdGVkX1+tJPf6EMApXjBV6EibWTtC9SMCnPjA+wY= at person1--1\""
+  ],
+  "passwords": [
+    "6f7353864bf78971d7f11cb288e910176cdec07d64473d5b2f544ac8bc8d88ae",
+    "5ad288ffa627492a1e61a9e481730502a4ac9824dc13f412ea977ce951fda4a4",
+    "f29cdad4739b0c6866a1f03bd22e37603f0a47fbbd0422c91afeeecc2c7df5d4"
+  ],
+  "masterPass": "2139335de56f88620aa7fdd6470b130a4b0748f3fbdfb606594e33a28af4b5ba"
+}

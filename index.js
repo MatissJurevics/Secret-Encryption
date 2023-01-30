@@ -19,39 +19,34 @@ db.data ||= {
   started: false,
   people: {},
   logs: [],
-  passwords: [
-    "", // 2jf8s!   // user 1
-    "", // v8t39b?  // user 2
-    "", // od4?5x   // user 3
-  ],
-  masterPass:
-    "",
+  passwords: ["", "", ""],
+  masterPass: "",
 };
 let { started, people, passwords, masterPass, logs } = db.data;
 
 const generatePasswords = async () => {
-  let master = ""
-  for (let i = 0; i<3; i++) {
-    let validChars  = "zxcvbnmasdfghjklqwertyuiop!£$^&*"
+  let master = "";
+  for (let i = 0; i < 3; i++) {
+    let validChars = "zxcvbnmasdfghjklqwertyuiop!£$^&*";
     let pass = "";
-    for (let j = 0; j <12;j++) {
-      pass +=(validChars[Math.floor(Math.random() * validChars.length)]);
+    for (let j = 0; j < 12; j++) {
+      pass += validChars[Math.floor(Math.random() * validChars.length)];
     }
-    passwords[i] = SHA256(pass).toString(enc.Hex)
-    master += (`${pass}-`)
-    console.log(`User ${i}: ${pass}`)
+    passwords[i] = SHA256(pass).toString(enc.Hex);
+    master += `${pass}-`;
+    console.log(`User ${i}: ${pass}`);
   }
-  for (let i = 0; i <4; i++) {
-    let validChars  = "zxcvbnmasdfghjklqwertyuiop!£$^&*"
-    master += (validChars[Math.floor(Math.random() * validChars.length)])
+  for (let i = 0; i < 4; i++) {
+    let validChars = "zxcvbnmasdfghjklqwertyuiop!£$^&*";
+    master += validChars[Math.floor(Math.random() * validChars.length)];
   }
-  db.data.masterPass = SHA256(master).toString(enc.Hex)
-  console.log(`Master : ${master}`)
-  db.data.started = true
-  await db.write()
-}
+  db.data.masterPass = SHA256(master).toString(enc.Hex);
+  console.log(`Master : ${master}`);
+  db.data.started = true;
+  await db.write();
+};
 if (!started) {
-  generatePasswords()
+  generatePasswords();
 }
 db.write();
 
@@ -95,26 +90,29 @@ app.get("/decrypt", (req, res) => {
 });
 
 app.get("/decryptall", (req, res) => {
-    let data = {}
-  let {password} = req.body;
+  let data = {};
+  let { password } = req.query;
+  console.log(password);
   if (SHA256(password) != masterPass) {
     res.send("Invalid Password");
   }
   let passArr = password.split("-");
   for (let person in people) {
-    data[person] ||= []
-    console.log(person)
+    data[person] ||= [];
+    console.log(person);
     for (let val in people[person]) {
-        let string = people[person][val]
-        let cyphertext = string.split('-')[1]
-        let index = Number(string.split("-")[0])
-        console.log(passArr[index])
-        let plaintext = AES.decrypt(cyphertext, passArr[index]).toString(enc.Utf8);
-        console.log(plaintext)
-        data[person].push(plaintext);
+      let string = people[person][val];
+      let cyphertext = string.split("-")[1];
+      let index = Number(string.split("-")[0]);
+      console.log(passArr[index]);
+      let plaintext = AES.decrypt(cyphertext, passArr[index]).toString(
+        enc.Utf8
+      );
+      console.log(plaintext);
+      data[person].push(plaintext);
     }
   }
-  res.send(data)
+  res.send(data);
 });
 
 app.get("/browse", async (req, res) => {
