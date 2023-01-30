@@ -16,18 +16,44 @@ const adapter = new JSONFile(file);
 const db = new Low(adapter);
 await db.read();
 db.data ||= {
+  started: false,
   people: {},
   logs: [],
   passwords: [
-    "9771b135e7efaa0a86c0b9ed5aebce6d625657f51d4ab1ec316f636828e4803b", // 2jf8s!   // user 1
-    "c9eb6302327f438d412093fd3255a081d3982089c798f6535e39f5750a0c8a2c", // v8t39b?  // user 2
-    "a3cf57dbdce11e002d84a3b705a76bb5ae70c40b3aea01a6ba98ad54abdcc945", // od4?5x   // user 3
+    "", // 2jf8s!   // user 1
+    "", // v8t39b?  // user 2
+    "", // od4?5x   // user 3
   ],
   masterPass:
-    "948a68ecca850a0a61ff6eeb369bac520d9c89c64d73ed9b57f0b48d36b4a16c",
+    "",
 };
+let { started, people, passwords, masterPass, logs } = db.data;
+
+const generatePasswords = async () => {
+  let master = ""
+  for (let i = 0; i<3; i++) {
+    let validChars  = "zxcvbnmasdfghjklqwertyuiop!£$^&*"
+    let pass = "";
+    for (let j = 0; j <12;j++) {
+      pass +=(validChars[Math.floor(Math.random() * validChars.length)]);
+    }
+    passwords[i] = SHA256(pass).toString(enc.Hex)
+    master += (`${pass}-`)
+    console.log(`User ${i}: ${pass}`)
+  }
+  for (let i = 0; i <4; i++) {
+    let validChars  = "zxcvbnmasdfghjklqwertyuiop!£$^&*"
+    master += (validChars[Math.floor(Math.random() * validChars.length)])
+  }
+  db.data.masterPass = SHA256(master).toString(enc.Hex)
+  console.log(`Master : ${master}`)
+  db.data.started = true
+  await db.write()
+}
+if (!started) {
+  generatePasswords()
+}
 db.write();
-const { people, passwords, masterPass, logs } = db.data;
 
 await db.write();
 
