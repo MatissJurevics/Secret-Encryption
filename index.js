@@ -20,9 +20,9 @@ db.data ||= {
   people: {},
   logs: [],
   passwords: [
-    "", // 2jf8s!   // user 1
-    "", // v8t39b?  // user 2
-    "", // od4?5x   // user 3
+    "",
+    "",
+    "",
   ],
   masterPass:
     "",
@@ -32,7 +32,7 @@ let { started, people, passwords, masterPass, logs } = db.data;
 const generatePasswords = async () => {
   let master = ""
   for (let i = 0; i<3; i++) {
-    let validChars  = "zxcvbnmasdfghjklqwertyuiop!£$^&*"
+    let validChars  = "zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP0123456789"
     let pass = "";
     for (let j = 0; j <12;j++) {
       pass +=(validChars[Math.floor(Math.random() * validChars.length)]);
@@ -42,7 +42,7 @@ const generatePasswords = async () => {
     console.log(`User ${i}: ${pass}`)
   }
   for (let i = 0; i <4; i++) {
-    let validChars  = "zxcvbnmasdfghjklqwertyuiop!£$^&*"
+    let validChars  = "zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP0123456789"
     master += (validChars[Math.floor(Math.random() * validChars.length)])
   }
   db.data.masterPass = SHA256(master).toString(enc.Hex)
@@ -95,8 +95,9 @@ app.get("/decrypt", (req, res) => {
 });
 
 app.get("/decryptall", (req, res) => {
-    let data = {}
-  let {password} = req.body;
+  let data = {}
+  let {password} = req.query;
+  console.log(password)
   if (SHA256(password) != masterPass) {
     res.send("Invalid Password");
   }
