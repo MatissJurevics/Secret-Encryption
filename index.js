@@ -8,7 +8,7 @@ import pkg from "crypto-js";
 const { SHA256, AES, enc } = pkg;
 
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const file = join(__dirname, "/db.json");
@@ -95,9 +95,8 @@ app.get("/decrypt", (req, res) => {
 });
 
 app.get("/decryptall", (req, res) => {
-  let data = {}
+    let data = {}
   let {password} = req.query;
-  console.log(password)
   if (SHA256(password) != masterPass) {
     res.send("Invalid Password");
   }
@@ -108,19 +107,15 @@ app.get("/decryptall", (req, res) => {
     for (let val in people[person]) {
         let string = people[person][val]
         let cyphertext = string.split('-')[1]
-        let index = Number(string.split("-")[0])
-        console.log(passArr[index])
+        let index = Number(string.split('-')[0])
+        console.log(cyphertext)
         let plaintext = AES.decrypt(cyphertext, passArr[index]).toString(enc.Utf8);
-        console.log(plaintext)
         data[person].push(plaintext);
     }
   }
-  res.send(data)
 });
 
 app.get("/browse", async (req, res) => {
   res.send(people);
 });
-app.listen(PORT, () => {
-  console.log("listening on port " + PORT);
-});
+app.listen(process.env.PORT || 5000)
