@@ -93,7 +93,7 @@ app.get("/decryptall", (req, res) => {
   let data = {};
   let { password } = req.query;
   console.log(password);
-  if (SHA256(password) != masterPass) {
+  if (SHA256(password).toString(enc.Hex) != masterPass) {
     res.send("Invalid Password");
   }
   let passArr = password.split("-");
